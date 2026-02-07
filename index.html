@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holi amigos 🎀</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+
+    body {
+      height: 100vh;
+      background-image: url('fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #a34b7a;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.9);
+      padding: 30px 25px;
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      max-width: 350px;
+      width: 90%;
+    }
+
+    h1 { font-size: 26px; font-weight: 800; margin-bottom: 10px; } /* letra más gruesa */
+
+    .question { font-size: 18px; margin: 20px 0; min-height: 60px; }
+
+    .buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    button {
+      border: none; padding: 12px 18px; border-radius: 999px;
+      font-size: 16px; cursor: pointer; transition: 0.2s ease;
+    }
+
+    .yes { background: #ff8fc4; color: white; }
+    .no { background: #ffd3e6; color: #a34b7a; }
+
+    .tiny-text { font-size: 12px; margin-top: 10px; opacity: 0.8; }
+    .hidden { display: none; }
+
+    .message { margin-top: 15px; font-size: 16px; }
+    .cat { width: 150px; margin-top: 15px; }
+
+    .confetti {
+      position: fixed; top: -10px; width: 10px; height: 10px;
+      background: pink; opacity: 0.8; animation: fall linear forwards;
+    }
+
+    @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Holi amigos 🎀</h1>
+    <p class="question" id="question">Sofia tiene una pregunta...</p>
+
+    <div class="buttons hidden" id="buttons">
+      <button class="yes" onclick="answerYes()">Sí 💗</button>
+      <button class="no" id="noBtn" onclick="answerNo()">No</button>
+    </div>
+
+    <div class="tiny-text hidden" id="tinyText"></div>
+
+    <div class="message" id="message"></div>
+
+    <img src="gatito.png" class="cat hidden" id="cat" />
+  </div>
+
+  <script>
+    let stage = 0;
+    let noScale = 1;
+    let tinyIndex = 0;
+
+    const tinyPhrases = [
+      'Elijan su vibra',
+      'Fameen aura',
+      'Sean serios'
+    ];
+
+    // Mostrar primera pregunta después de 2.5 segundos
+    setTimeout(() => {
+      document.getElementById('question').innerText = '¿Puedo volver con mi ex?';
+      document.getElementById('buttons').classList.remove('hidden');
+      stage = 1;
+    }, 2500);
+
+    function answerYes() {
+      if (stage === 1) {
+        document.getElementById('buttons').classList.add('hidden');
+        document.getElementById('question').innerText = 'JAJAJA';
+
+        setTimeout(() => {
+          document.getElementById('question').innerText = 'Es broma 😔✋🏻';
+
+          setTimeout(() => {
+            document.getElementById('question').innerText = '¿Confirmamos oficialmente la salida de los miserables el 14 de febrero para hundirnos en nuestra miseria compartida?';
+            document.getElementById('buttons').classList.remove('hidden');
+            stage = 2;
+          }, 1500);
+        }, 800);
+        return;
+      }
+
+      if (stage === 2) {
+        document.getElementById('message').innerText = 'Los quiero mucho, confirmada la reunión entonces. Si llegan a cancelar los caigo a palazos.';
+        document.getElementById('cat').classList.remove('hidden');
+        startConfetti();
+      }
+    }
+
+    function answerNo() {
+      if (stage === 1) {
+        document.getElementById('buttons').classList.add('hidden');
+        document.getElementById('question').innerText = 'JAJAJA';
+
+        setTimeout(() => {
+          document.getElementById('question').innerText = 'Es broma 😔✋🏻';
+
+          setTimeout(() => {
+            document.getElementById('question').innerText = '¿Confirmamos oficialmente la salida de los miserables el 14 de febrero para hundirnos en nuestra miseria compartida?';
+            document.getElementById('buttons').classList.remove('hidden');
+            stage = 2;
+          }, 1500);
+        }, 800);
+        return;
+      }
+
+      if (stage === 2) {
+        noScale *= 0.7;
+        const btn = document.getElementById('noBtn');
+        btn.style.transform = `scale(${noScale})`;
+
+        if (tinyIndex < tinyPhrases.length) {
+          const tiny = document.getElementById('tinyText');
+          tiny.classList.remove('hidden');
+          tiny.innerText = tinyPhrases[tinyIndex];
+          tinyIndex++;
+        }
+      }
+    }
+
+    function startConfetti() {
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDuration = 2 + Math.random() * 3 + 's';
+        confetti.style.background = ['#ff8fc4', '#ffd3e6', '#ffc0cb'][Math.floor(Math.random() * 3)];
+
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+  </script>
+</body>
+</html>
